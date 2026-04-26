@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLI Calculator by Piyushkant</title>
+  <meta name="description" content="A C++ command-line calculator with input validation and five operations." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-1: #f7f6f2;
+      --bg-2: #e9efe2;
+      --ink: #162018;
+      --muted: #4f5e50;
+      --card: rgba(255, 255, 255, 0.74);
+      --line: #cad8c8;
+      --accent: #1f7a4f;
+      --accent-2: #0f4f8a;
+      --shadow: 0 12px 40px rgba(12, 38, 23, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 5% 0%, #d8ebcf 0%, transparent 40%),
+        radial-gradient(circle at 95% 15%, #d6e7f7 0%, transparent 38%),
+        linear-gradient(160deg, var(--bg-1), var(--bg-2));
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    .grid {
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 38px 38px;
+      opacity: 0.24;
+      pointer-events: none;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      margin-top: 34px;
+      padding: 36px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--card);
+      backdrop-filter: blur(6px);
+      box-shadow: var(--shadow);
+      animation: fadeUp 700ms ease both;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 4.2vw, 4rem);
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 14px;
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    p {
+      margin: 14px 0 0;
+      max-width: 66ch;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.7;
+    }
+
+    .btns {
+      margin-top: 24px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      text-decoration: none;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: 1px solid transparent;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.11);
+    }
+
+    .btn.primary {
+      color: #fff;
+      background: linear-gradient(120deg, var(--accent), #2d9b67);
+    }
+
+    .btn.secondary {
+      color: var(--ink);
+      border-color: #adbfaa;
+      background: #ffffffcc;
+    }
+
+    .cards {
+      margin-top: 20px;
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .card {
+      background: #ffffffdd;
+      border: 1px solid #c8d5c5;
+      border-radius: 16px;
+      padding: 18px;
+      animation: fadeUp 700ms ease both;
+      animation-delay: calc(var(--i) * 120ms);
+    }
+
+    .card h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+      color: #203326;
+    }
+
+    .mono {
+      margin-top: 22px;
+      background: #122018;
+      color: #e9f0ea;
+      border-radius: 16px;
+      border: 1px solid #1e3a2a;
+      padding: 16px;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      overflow-x: auto;
+      animation: fadeUp 900ms ease both;
+      animation-delay: 420ms;
+    }
+
+    footer {
+      margin: 22px 0 26px;
+      text-align: center;
+      color: #3f5646;
+      font-size: 0.95rem;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hero {
+        padding: 22px;
+        border-radius: 18px;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="grid"></div>
+  <main class="wrap">
+    <section class="hero">
+      <span class="tag">C++ Project</span>
+      <h1>CLI Calculator</h1>
+      <p>
+        A command-line calculator built in C++ that supports addition, subtraction,
+        multiplication, division, and modulus with strong input validation and division-by-zero handling.
+      </p>
+      <div class="btns">
+        <a class="btn primary" href="https://github.com/Piyushkant-Coder/cli-calculator" target="_blank" rel="noreferrer">View Repository</a>
+        <a class="btn secondary" href="https://github.com/Piyushkant-Coder/cli-calculator/blob/main/CalculatorCLI.cpp" target="_blank" rel="noreferrer">See Source Code</a>
+      </div>
+      <div class="cards">
+        <article class="card" style="--i:1">
+          <h3>Operations</h3>
+          <p>+, -, *, /, and % (modulus using integer conversion).</p>
+        </article>
+        <article class="card" style="--i:2">
+          <h3>Validation</h3>
+          <p>Rejects invalid inputs and re-prompts until numeric data is entered.</p>
+        </article>
+        <article class="card" style="--i:3">
+          <h3>Looped Session</h3>
+          <p>Runs continuously until user exits with n or N.</p>
+        </article>
+      </div>
+      <pre class="mono">Example run
+===============================
+   Welcome to CLI Calculator
+===============================
+Enter first number: 25
+Enter operation(+, -, *, /, %(Modulus)): /
+Enter second number: 5
+Result: 5</pre>
+    </section>
+    <footer>Built by Piyushkant Bhardwaj</footer>
+  </main>
+</body>
+</html>
